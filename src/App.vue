@@ -22,7 +22,6 @@
 
 <script>
 import vheader from '@/components/header/vheader'
-import axios from 'axios'
 
 const ERR_OK = 0;
 
@@ -35,7 +34,7 @@ export default {
   },
   created() {
     var self = this;
-    axios.get('/api/seller').then(function(response){
+    self.axios.get('/api/seller').then(function(response){
       // console.log(response);
       let res = response.data;
       if(res.errno == ERR_OK){
