@@ -2,6 +2,22 @@
 
 * 参照商品页设计图，给vheader.vue组件添加相应的样式
 
+* 添加详情弹出页，并赋予样式  
+- 详情弹出页使用到了[sticky-footer]的布局样式  
+可以参考文章：<https://www.w3cplus.com/css3/css-secrets/sticky-footers.html>
+- 使用到了[flex]布局样式  
+可以参考文章：<http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=fuicool>  
+兼容性问题：Postcss是根据can i use（<http://caniuse.com>）官网去写代码  
+- 添加动画效果，使用vue的transition标签  
+使用时需要注意vue2.X与vue1.X的区别，transition标签的使用完全不同。  
+可以参考文章：<https://vuefe.cn/v2/guide/transitions.html>或者<https://cn.vuejs.org/v2/guide/transitions.html>  
+
+* 增加星组件（star.vue)作为共用组件：
+    * 详情弹层页
+    * 评价页
+    * 商家页
+>**注意：**使用时，需要再star外面嵌套一层，用来定义自己的样式
+
 ####如何消除两个span标签之间的间隙？
 ```
 有两种方法消除间隙
