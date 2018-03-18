@@ -8,6 +8,20 @@
 
 >由于图标多次使用到，可以做为一个公共组件使用
 
+>书写菜单栏和商品食物栏的布局样式，主要使用flex进行布局
+实现菜单栏和商品食物栏滚动，采用iscroll.js插件，本例采用better-scroll.js插件
+插件地址：<https://github.com/ustbhuangyi/better-scroll>
+
+#### vue 1.X版本中使用v-el、v-ref标签，vue 2.x 版本中全部以作废，用ref="name"替代  
+```javascript 
+v-el 和 v-ref 合并为一个 ref 属性了，可以在组件实例中通过 $refs 来调用。这意味着 v-el:my-element将写成这样： ref=”myElement”， v-ref:my-component 变成了这样：ref=”myComponent”。绑定在一般元素上时，ref 指DOM元素，绑定在组件上时，ref 为一组件实例。 因为 v-ref不再是一个指令了而是一个特殊的属性，它也可以被动态定义了。这样在和v-for 结合的时候是很有用的： 
+<p v-for="item in items" v-bind:ref="'item' + item.id"></p> 
+以前 v-el/v-ref 和 v-for 一起使用将产生一个DOM数组或者组件数组，因为没法给每个元素一个特定名字。现在你还仍然可以这样做，给每个元素一个同样的ref：
+<p v-for="item in items" ref="items"></p>
+$refs不是响应的，而在1.x中不同。 
+因为它们在渲染过程中注册/更新。只有监听变化并重复渲染才能使它们响应。 另一方面，设计$refs主要是提供给 js 程序访问的，并不建议在模板中过度依赖使用它。因为这意味着在实例之外去访问实例状态，违背了 Vue 数据驱动的思想。
+```
+
 ---
 
 **v 0.1.0**
@@ -121,5 +135,6 @@ npm install stylus-loader –save-dev
     components目录增加header目录（头部vue相关文件，根据就近原则存放相应文件）
 4. 增加data.json文件，mock数据（模拟后台数据）  
     vue 1.X采用vue-resource来进行调用，vue 2.X采用axios来调用数据
+    模拟后台接口的api访问地址，vue1.x放在dev-server.js文件中，vue2.x放在webpack.dev.config.js文件中。
 ```
 
