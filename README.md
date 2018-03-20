@@ -12,6 +12,19 @@
 实现菜单栏和商品食物栏滚动，采用iscroll.js插件，本例采用better-scroll.js插件
 插件地址：<https://github.com/ustbhuangyi/better-scroll>
 
+菜单栏和商品食物栏左右联动
+1、需要计算商品食物栏的滑动高度大小（使用clientHeight处理），并将每个商品栏记录再一个数组中。
+2、需要确定当前滑到的商品栏再第几列，方法再computed中处理。
+3、给左边的菜单栏添加高亮样式。
+
+* clientHeight、scrollHeight、offsetHeight之间的区别
+    * clientHeight：元素客户区的大小，指的是元素内容及其边框所占据的空间大小（经过实践取出来的大多是视口大小）
+    * scrollHeight: 滚动大小，指的是包含滚动内容的元素大小（元素内容的总高度）
+    * offsetHeight: 偏移量，包含元素在屏幕上所用的所有可见空间（包括所有的内边距滚动条和边框大小，不包括外边距）
+
+> this.$nextTick(() => { ... });
+> 再原生DOM渲染完成之后才会执行其中的回调函数。
+
 #### vue 1.X版本中使用v-el、v-ref标签，vue 2.x 版本中全部以作废，用ref="name"替代  
 ```javascript 
 v-el 和 v-ref 合并为一个 ref 属性了，可以在组件实例中通过 $refs 来调用。这意味着 v-el:my-element将写成这样： ref=”myElement”， v-ref:my-component 变成了这样：ref=”myComponent”。绑定在一般元素上时，ref 指DOM元素，绑定在组件上时，ref 为一组件实例。 因为 v-ref不再是一个指令了而是一个特殊的属性，它也可以被动态定义了。这样在和v-for 结合的时候是很有用的： 
