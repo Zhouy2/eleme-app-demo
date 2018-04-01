@@ -1,3 +1,103 @@
+
+**v 0.1.2**
+* shopcart.vue组件
+  * 购物车的状态栏改变，以及值内容的变化。
+  * computed选项属性，调用函数返回具体的数据，返回值当作变量使用。
+
+增加cartcontrol组件，控制商品得增加和减少
+
+CSS3中transition属性定义过渡效果。
+transition默认值：all 0 ease 0
+分别是：
+transition-property (过渡属性)：none 或者 all 或者 property
+transition-duration (过渡时间)：0s 或者 0ms
+transition-timing-function (过渡方式)：
+    linear（开始结束速度相同）
+    ease：慢速开始，然后变快，然后慢速结束过渡
+    ease-in：慢速开始
+    ease-out：慢速结束
+    ease-in-out：慢速开始和结束
+    cubic-bezier(n, n, n, n)：定义自己的值。可能的值是0~1之间的数值
+transition-delay (过渡延迟时间)：0s 或者 0ms
+
+> vue 2.x 版本中<transition></transition>标签更改
+* 有 6 种 class 类名会在进入/离开(enter/leave)过渡中处理
+    * v-enter：进入式过渡(entering transition)的开始状态。在插入元素之前添加，在插入元素之后一帧移除。
+    * v-enter-active：进入式过渡的激活状态。应用于整个进入式过渡时期。在插入元素之前添加，过渡/动画(transition/animation)完成之后移除。此 class 可用于定义进入式过渡的 duration, delay 和 easing 曲线。
+    * v-enter-to：仅适用于版本 2.1.8+。进入式过渡的结束状态。在插入元素之后一帧添加（同时，移除 v-enter），在过渡/动画完成之后移除。
+    * v-leave：离开式过渡(leaving transition)的开始状态。在触发离开式过渡时立即添加，在一帧之后移除。
+    * v-leave-active：离开式过渡的激活状态。应用于整个离开式过渡时期。在触发离开式过渡时立即添加，在过渡/动画(transition/animation)完成之后移除。此 class 可用于定义离开式过渡的 duration, delay 和 easing 曲线。
+    * v-leave-to：仅适用于版本 2.1.8+。离开式过渡的结束状态。在触发离开式过渡之后一帧添加（同时，移除 v-leave），在过渡/动画完成之后移除。
+具体修改可以参考Vue官方文档，地址<https://vuefe.cn/v2/guide/transitions.html>
+
+小球落入购物车中的动画实现
+vue2.x 中transition的钩子函数
+```javascript
+可以在属性中声明 JavaScript 钩子
+
+<transition
+  v-on:before-enter="beforeEnter"
+  v-on:enter="enter"
+  v-on:after-enter="afterEnter"
+  v-on:enter-cancelled="enterCancelled"
+
+  v-on:before-leave="beforeLeave"
+  v-on:leave="leave"
+  v-on:after-leave="afterLeave"
+  v-on:leave-cancelled="leaveCancelled"
+>
+  <!-- ... -->
+</transition>
+// ...
+methods: {
+  // --------
+  // 进入中
+  // --------
+
+  beforeEnter: function (el) {
+    // ...
+  },
+  // 此回调函数是可选项的设置
+  // 与 CSS 结合时使用
+  enter: function (el, done) {
+    // ...
+    done()
+  },
+  afterEnter: function (el) {
+    // ...
+  },
+  enterCancelled: function (el) {
+    // ...
+  },
+
+  // --------
+  // 离开时
+  // --------
+
+  beforeLeave: function (el) {
+    // ...
+  },
+  // 此回调函数是可选项的设置
+  // 与 CSS 结合时使用
+  leave: function (el, done) {
+    // ...
+    done()
+  },
+  afterLeave: function (el) {
+    // ...
+  },
+  // leaveCancelled 只用于 v-show 中
+  leaveCancelled: function (el) {
+    // ...
+  }
+}
+详情可以查看官网：<https://cn.vuejs.org/v2/guide/transitions.html#JavaScript-%E9%92%A9%E5%AD%90>
+```
+
+增加购物列表的基本样式，以及遮罩层。
+
+---
+
 **v 0.1.1**
 * 参照商品页设计图，增加goods.vue组件（商品），包含
     * 菜单列表

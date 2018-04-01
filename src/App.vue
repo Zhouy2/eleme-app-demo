@@ -13,10 +13,10 @@
       </div>
     </div>
     <!-- 展示tab -->
-    <router-view></router-view>
+    <router-view :seller="seller"></router-view>
     <!-- <div class="content">
       I am content
-    </div> -->
+    </div> --> 
   </div>
 </template>
 

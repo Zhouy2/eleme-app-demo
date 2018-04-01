@@ -38,17 +38,26 @@
                   <span class="new">￥{{food.price}}</span>
                   <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
+                <!-- 增加、减少按钮 -->
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
+    <!-- 购物车 -->
+    <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll"
+import shopcart from "@/components/shopcart/shopcart"
+import cartcontrol from "@/components/cartcontrol/cartcontrol"
+import eventHub from "@/components/event/eventHub"
 
 const ERR_OK = 0;
 
@@ -59,7 +68,8 @@ export default {
       msg: 'I am goods',
       goods: [],
       listHeight: [],
-      scrollY: 0
+      scrollY: 0,
+      selectedFood: {}
     }
   },
   props: {
@@ -68,6 +78,7 @@ export default {
     }
   },
   computed: {
+    // 菜单栏和商品食物栏联动效果
     currentIndex() {
       for(let i = 0;i< this.listHeight.length; i++){
         let height1 = this.listHeight[i];
@@ -77,10 +88,23 @@ export default {
         }
       }
       return 0;
+    },
+    // 购物车选中的商品数量
+    selectFoods() {
+      let foods = [];
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if (food.count) {
+            foods.push(food);
+          }
+        });
+      });
+      return foods;
     }
   },
   created() {
     var self = this;
+    // 图标
     self.classMap = ['decrease','discount','guarantee','invoice','special'];
     self.axios.get('/api/goods').then(function(response){
       // console.log(response);
@@ -88,6 +112,7 @@ export default {
       if(res.errno == ERR_OK){
         self.goods = res.data;
         // console.log(self.goods)
+        // DOM渲染完成之后执行
         self.$nextTick(() => {
           self._initScroll();
           self._calculateHeight();
@@ -97,7 +122,17 @@ export default {
       console.log(error);
     });
   },
+  mounted() {
+    var self = this;
+    self.$nextTick(() => {
+        eventHub.$on('cart.add',function(target){ 
+          // console.log(target)
+          self._drop(target);
+        });
+      });
+  },
   methods: {
+    // 菜单栏选中的索引
     selectIndex(index) {
       // console.log(index);
       let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
@@ -111,6 +146,7 @@ export default {
       });
       
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
+        click: true,
         probeType: 3
       });
 
@@ -118,6 +154,7 @@ export default {
         this.scrollY = Math.abs(Math.round(pos.y));
       })
     },
+    // 计算商品食物栏的高度,并存入数组中
     _calculateHeight() {
       let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
       let height = 0;
@@ -128,8 +165,26 @@ export default {
         this.listHeight.push(height);
       }
       console.log(this.listHeight)
+    },
+    // 小球掉落
+    _drop(target) {
+      // console.log("_drop")
+      // 体验优化
+      this.$nextTick(() => {
+        this.$refs.shopcart.drop(target);
+      });
     }
+  },
+  components: {
+    shopcart,
+    cartcontrol
   }
+  // events: {
+  //   'cart.add'(target) {
+  //     console.log(target)
+  //     this._drop(target);
+  //   }
+  // }
 }
 </script>
 
@@ -237,4 +292,8 @@ export default {
             text-decoration: line-through
             font-size: 10px
             color: rgb(147, 153, 159)
+        .cartcontrol-wrapper
+          position: absolute
+          right: 0
+          bottom: 12px
 </style>
